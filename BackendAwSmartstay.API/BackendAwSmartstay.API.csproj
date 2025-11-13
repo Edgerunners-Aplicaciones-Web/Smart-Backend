@@ -32,10 +32,6 @@
         <!-- Mediator pattern related packages -->
         <PackageReference Include="Cortex.Mediator" Version="2.1.0"/>
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Bookings\Infrastructure\Configuration\" />
-    </ItemGroup>
     
 
 </Project>
