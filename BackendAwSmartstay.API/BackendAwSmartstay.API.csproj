@@ -32,6 +32,11 @@
         <!-- Mediator pattern related packages -->
         <PackageReference Include="Cortex.Mediator" Version="2.1.0"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Accommodations\Infrastructure\Persistence\EFC\" />
+      <Folder Include="Accommodations\Infrastructure\Persistence\Repositories\" />
+    </ItemGroup>
     
 
 </Project>
