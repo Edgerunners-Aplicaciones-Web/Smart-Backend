@@ -1,4 +1,3 @@
-using BackendAwSmartstay.API.shared.Domain.Model.Events;
 using BackendAwSmartstay.API.Shared.Domain.Model.Events;
 
 namespace BackendAwSmartstay.API.Accommodations.Domain.Entities;
