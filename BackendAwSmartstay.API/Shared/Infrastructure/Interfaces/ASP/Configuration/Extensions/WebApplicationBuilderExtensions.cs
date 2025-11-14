@@ -1,8 +1,7 @@
-﻿
-using BackendAwSmartstay.API.shared.Domain.Repositories;
+﻿using BackendAwSmartstay.API.Shared.Domain.Repositories;
 using BackendAwSmartstay.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 
-namespace BackendAwSmartstay.API.shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+namespace BackendAwSmartstay.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {

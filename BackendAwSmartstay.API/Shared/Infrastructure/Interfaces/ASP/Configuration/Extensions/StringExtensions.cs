@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace BackendAwSmartstay.API.shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+namespace BackendAwSmartstay.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 
 public static partial class StringExtensions
 {

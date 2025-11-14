@@ -1,4 +1,4 @@
-﻿namespace BackendAwSmartstay.API.shared.Domain.Repositories;
+﻿namespace BackendAwSmartstay.API.Shared.Domain.Repositories;
 
 public interface IBaseRepository<TEntity>
 {
