@@ -1,28 +1,41 @@
+using BackendAwSmartstay.API.Accommodations.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using BackendAwSmartstay.API.Bookings.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using BackendAwSmartstay.API.Payments.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using BackendAwSmartstay.API.Shared.Infrastructure.Documentation.OpenApi.Configuration.Extensions;
+using BackendAwSmartstay.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using BackendAwSmartstay.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using BackendAwSmartstay.API.Shared.Infrastructure.Mediator.Cortex.Configuration.Extensions;
+using BackendAwSmartstay.API.shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Database Configuration
+builder.AddDatabaseConfigurationServices();
+
+// OpenAPI/Swagger Configuration
+builder.AddOpenApiConfigurationServices();
+
+// Dependency Injection
+builder.AddSharedContextServices();
+builder.AddAccommodationsContextServices();
+builder.AddBookingsContextServices();
+builder.AddPaymentsContextServices();
+
+// Mediator Configuration
+builder.AddCortexMediatorServices();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "BackendAwSmartstay.API v1");
-        options.RoutePrefix = "swagger";
-    });
-}
+// Verify if the database exists and create it if it doesn't
+app.EnsureDatabaseCreated();
+
+// Configure OpenAPI/Swagger middleware
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
