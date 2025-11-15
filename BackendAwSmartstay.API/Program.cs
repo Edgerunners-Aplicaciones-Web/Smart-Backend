@@ -9,6 +9,9 @@ using BackendAwSmartstay.API.shared.Infrastructure.Persistence.EFC.Configuration
 using BackendAwSmartstay.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using DotNetEnv;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
