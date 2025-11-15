@@ -37,6 +37,10 @@
     <ItemGroup>
       <Folder Include="Payments\" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Dockerfile" />
+    </ItemGroup>
     
 
 </Project>
