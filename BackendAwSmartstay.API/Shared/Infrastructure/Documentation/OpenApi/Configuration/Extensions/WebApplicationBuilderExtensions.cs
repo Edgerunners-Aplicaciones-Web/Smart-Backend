@@ -28,7 +28,44 @@ public static class WebApplicationBuilderExtensions
                         Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
                     }
                 });
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Ingrese el token JWT con el prefijo Bearer",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
+                Scheme = "bearer"
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Id = "Bearer",
+                            Type = ReferenceType.SecurityScheme
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
             options.EnableAnnotations();
+        });
+    }
+
+    public static void AddCorsServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAllPolicy",
+                policy =>
+                {
+                    policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
         });
     }
 }
