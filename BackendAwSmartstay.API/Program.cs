@@ -7,7 +7,7 @@ using BackendAwSmartstay.API.Shared.Infrastructure.Interfaces.ASP.Configuration.
 using BackendAwSmartstay.API.Shared.Infrastructure.Mediator.Cortex.Configuration.Extensions;
 using BackendAwSmartstay.API.IAM.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 using BackendAwSmartstay.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
-//using BackendAwSmartstay.API.Profiles.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using BackendAwSmartstay.API.Profiles.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 using BackendAwSmartstay.API.shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using DotNetEnv;
 
@@ -32,7 +32,7 @@ builder.AddAccommodationsContextServices();
 builder.AddBookingsContextServices();
 builder.AddPaymentsContextServices();
 builder.AddIamContextServices();
-//builder.AddProfilesContextServices();
+builder.AddProfilesContextServices();
 
 // Mediator Configuration
 builder.AddCortexMediatorServices();
