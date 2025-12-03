@@ -10,6 +10,11 @@ public static class ModelBuilderExtensions
 {
     public static void ApplyAccommodationsConfiguration(this ModelBuilder builder)
     {
+        // Room Amenities (stored as JSON)
+        var amenitiesConverter = new ValueConverter<List<string>, string>(
+            v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+            v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) ?? new List<string>());
+        
         // RoomType Entity
         builder.Entity<RoomType>().HasKey(rt => rt.Id);
         builder.Entity<RoomType>().Property(rt => rt.Id).IsRequired().ValueGeneratedOnAdd();
@@ -21,14 +26,15 @@ public static class ModelBuilderExtensions
         builder.Entity<Room>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Room>().Property(r => r.Description).IsRequired().HasMaxLength(1000);
         builder.Entity<Room>().Property(r => r.RoomTypeId).IsRequired();
-
-        // Room Amenities (stored as JSON)
-        var converter = new ValueConverter<List<string>, string>(
-            v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
-            v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) ?? new List<string>());
-
+        
+        // Hotel Entity
+        builder.Entity<Hotel>().ToTable("hotels");
+        builder.Entity<Hotel>().HasKey(h => h.Id);
+        builder.Entity<Hotel>().Property(h => h.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Hotel>().Property(h => h.Name).IsRequired().HasMaxLength(100);
+        
         builder.Entity<Room>().Property(r => r.Amenities)
-            .HasConversion(converter)
+            .HasConversion(amenitiesConverter)
             .HasColumnType("json")
             .IsRequired();
 
@@ -37,6 +43,11 @@ public static class ModelBuilderExtensions
             .WithMany()
             .HasForeignKey(r => r.RoomTypeId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.Entity<Hotel>().Property(h => h.Amenities)
+            .HasConversion(amenitiesConverter)
+            .HasColumnType("json") 
+            .IsRequired();
     }
 }
 

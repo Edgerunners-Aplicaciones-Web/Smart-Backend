@@ -25,8 +25,17 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
         ITokenService tokenService)
     {
         Console.WriteLine("Entering InvokeAsync");
+        var endpoint = context.GetEndpoint();
+        
+        if (endpoint == null)
+        {
+            Console.WriteLine("Endpoint is null (Ghost). Skipping authorization.");
+            await next(context);
+            return;
+        }
+        
         // skip authorization if endpoint is decorated with [AllowAnonymous] attribute
-        var allowAnonymous = context.Request.HttpContext.GetEndpoint()!.Metadata
+        var allowAnonymous = endpoint.Metadata
             .Any(m => m.GetType() == typeof(AllowAnonymousAttribute));
         Console.WriteLine($"Allow Anonymous is {allowAnonymous}");
         if (allowAnonymous)

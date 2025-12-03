@@ -15,14 +15,17 @@ public static class WebApplicationBuilderExtensions
         // Repositories
         builder.Services.AddScoped<IRoomRepository, RoomRepository>();
         builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
+        builder.Services.AddScoped<IHotelRepository, HotelRepository>();
 
         // Command Services
         builder.Services.AddScoped<IRoomCommandService, RoomCommandService>();
         builder.Services.AddScoped<IRoomTypeCommandService, RoomTypeCommandService>();
+        builder.Services.AddScoped<IHotelCommandService, HotelCommandService>();
 
         // Query Services
         builder.Services.AddScoped<IRoomQueryService, RoomQueryService>();
         builder.Services.AddScoped<IRoomTypeQueryService, RoomTypeQueryService>();
+        builder.Services.AddScoped<IHotelQueryService, HotelQueryService>();
     }
 }
 
