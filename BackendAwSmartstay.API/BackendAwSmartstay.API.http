@@ -1,6 +1,6 @@
-@BackendAwSmartstay.API_HostAddress = http://localhost:5192
+@Host = http://localhost:5192
 
-GET {{BackendAwSmartstay.API_HostAddress}}/weatherforecast/
+GET {{Host}}/swagger/v1/swagger.json
 Accept: application/json
 
 ###
