@@ -13,49 +13,50 @@ namespace BackendAwSmartstay.API.Payments.Application.Internal.CommandServices;
 /// </summary>
 public class PaymentCommandService(
     IPaymentRepository paymentRepository,
-    IBookingRepository bookingRepository, // <--- Inyectamos el repositorio de reservas
+    IBookingRepository bookingRepository, // <--- Inject the reserve repository
     IUnitOfWork unitOfWork) 
     : IPaymentCommandService
 {
     public async Task<Payment?> Handle(ProcessPaymentCommand command)
     {
-        // 1. Iniciar el proceso de pago (Estado Pendiente)
+        // 1. Start the payment process (Pending Status)
         var payment = new Payment(command);
 
-        // 2. Lógica de Simulación (Gateway Fake)
+        // 2. Simulation Logic (Fake Gateway)
         bool isApproved = true;
 
-        // Reglas de negocio simuladas
+        // Simulated business rules
         if (command.Amount <= 0) isApproved = false;
-        if (command.CardNumber.EndsWith("0000")) isApproved = false; // Simular tarjeta rechazada
+        if (command.CardNumber.EndsWith("0000")) isApproved = false; // Simulate declined card
 
         if (isApproved)
         {
-            payment.Complete(); // Cambia estado de pago a Completed (1)
+            payment.Complete(); // Change payment status to Completed (1)
 
-            // --- JUGADA CLAVE: ACTUALIZAR LA RESERVA ---
+            // --- KEY PLAY: UPDATE RESERVATION ---
             var booking = await bookingRepository.FindByIdAsync(command.BookingId);
             if (booking != null)
             {
-                booking.Confirm(); // Cambia estado de reserva a Confirmed
+                booking.Confirm(); // Change reservation status to Confirmed
                 bookingRepository.Update(booking);
                 Console.WriteLine($"Booking #{booking.Id} has been confirmed via Payment.");
             }
             else 
             {
-                // Si no existe la reserva, no deberíamos cobrar
+                // If there is no reservation, we shouldn't charge.
                 throw new Exception("Booking not found provided for payment.");
             }
             // -------------------------------------------
         }
         else
         {
-            payment.Fail(); // Cambia estado de pago a Failed (2)
+            payment.Fail(); // Change payment status to Failed (2)
             Console.WriteLine("Payment declined by simulation logic.");
         }
 
-        // 3. Guardar TODO en una sola transacción (Unit of Work)
-        // Esto guarda el Pago y la actualización de la Reserva al mismo tiempo.
+        // 3. Save EVERYTHING in a single transaction (Unit of Work)
+
+        // This saves the payment and the reservation update at the same time.
         await paymentRepository.AddAsync(payment);
         await unitOfWork.CompleteAsync();
 
