@@ -5,17 +5,16 @@ namespace BackendAwSmartstay.API.Payments.Interfaces.REST.Transform;
 
 public static class PaymentResourceFromEntityAssembler
 {
-
     public static PaymentResource ToResourceFromEntity(Payment entity)
     {
         return new PaymentResource(
             entity.Id,
             entity.BookingId,
+            entity.TransactionId,
             entity.Amount,
-            entity.PaymentMethod,
             entity.Status.ToString(),
-            entity.PaymentDate,
-            entity.InvoiceNumber);
+            entity.CardNumberMasked,
+            entity.PaymentDate.ToString("yyyy-MM-dd HH:mm:ss")
+        );
     }
 }
-
