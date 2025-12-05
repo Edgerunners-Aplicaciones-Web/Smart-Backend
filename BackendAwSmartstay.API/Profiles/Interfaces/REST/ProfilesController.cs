@@ -20,6 +20,11 @@ public class ProfilesController(
     IProfileQueryService profileQueryService)
     : ControllerBase
 {
+    /// <summary>
+    /// Retrieves a profile by its identifier.
+    /// </summary>
+    /// <param name="profileId">The unique identifier of the profile.</param>
+    /// <returns>An action result containing the profile resource or NotFound if not found.</returns>
     [HttpGet("{profileId:int}")]
     [SwaggerOperation("Get Profile by Id", "Get a profile by its unique identifier.", OperationId = "GetProfileById")]
     [SwaggerResponse(200, "The profile was found and returned.", typeof(ProfileResource))]
@@ -33,6 +38,11 @@ public class ProfilesController(
         return Ok(profileResource);
     }
 
+    /// <summary>
+    /// Creates a new profile.
+    /// </summary>
+    /// <param name="resource">The resource containing the profile creation data.</param>
+    /// <returns>An action result containing the created profile resource.</returns>
     [HttpPost]
     [SwaggerOperation("Create Profile", "Create a new profile.", OperationId = "CreateProfile")]
     [SwaggerResponse(201, "The profile was created.", typeof(ProfileResource))]
@@ -46,6 +56,10 @@ public class ProfilesController(
         return CreatedAtAction(nameof(GetProfileById), new { profileId = profile.Id }, profileResource);
     }
 
+    /// <summary>
+    /// Retrieves all profiles.
+    /// </summary>
+    /// <returns>An action result containing a list of profile resources.</returns>
     [HttpGet]
     [SwaggerOperation("Get All Profiles", "Get all profiles.", OperationId = "GetAllProfiles")]
     [SwaggerResponse(200, "The profiles were found and returned.", typeof(IEnumerable<ProfileResource>))]

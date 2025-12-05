@@ -15,6 +15,11 @@ public class HotelCommandService(
     IUnitOfWork unitOfWork)
     : IHotelCommandService
 {
+    /// <summary>
+    /// Handles the creation of a new hotel.
+    /// </summary>
+    /// <param name="command">The command containing the hotel creation data.</param>
+    /// <returns>The created hotel or null if creation failed.</returns>
     public async Task<Hotel?> Handle(CreateHotelCommand command)
     {
         var hotel = new Hotel(command);
@@ -23,6 +28,11 @@ public class HotelCommandService(
         return hotel;
     }
 
+    /// <summary>
+    /// Handles the update of an existing hotel.
+    /// </summary>
+    /// <param name="command">The command containing the hotel update data.</param>
+    /// <returns>The updated hotel or null if the hotel was not found.</returns>
     public async Task<Hotel?> Handle(UpdateHotelCommand command)
     {
         var hotel = await hotelRepository.FindByIdAsync(command.Id);
@@ -44,6 +54,11 @@ public class HotelCommandService(
         return hotel;
     }
 
+    /// <summary>
+    /// Handles the deletion of a hotel.
+    /// </summary>
+    /// <param name="command">The command containing the hotel deletion data.</param>
+    /// <returns>The deleted hotel or null if the hotel was not found.</returns>
     public async Task<Hotel?> Handle(DeleteHotelCommand command)
     {
         var hotel = await hotelRepository.FindByIdAsync(command.Id);

@@ -8,6 +8,11 @@ namespace BackendAwSmartstay.API.Accommodations.Domain.Services;
 /// </summary>
 public interface IHotelCommandService
 {
+    /// <summary>
+    /// Handles the creation of a hotel.
+    /// </summary>
+    /// <param name="command">The create command.</param>
+    /// <returns>The created hotel or null if creation failed.</returns>
     Task<Hotel?> Handle(CreateHotelCommand command);
     
     /// <summary>

@@ -9,6 +9,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace BackendAwSmartstay.API.Analytics.Interfaces.REST;
 
+/// <summary>
+/// REST controller for analytics operations.
+/// </summary>
 [Authorize] // Only Staff/Admin should access this
 [ApiController]
 [Route("api/v1/[controller]")]
@@ -16,6 +19,10 @@ namespace BackendAwSmartstay.API.Analytics.Interfaces.REST;
 [SwaggerTag("Available Analytics Endpoints")]
 public class AnalyticsController(IAnalyticsQueryService analyticsQueryService) : ControllerBase
 {
+    /// <summary>
+    /// Retrieves monthly performance metrics.
+    /// </summary>
+    /// <returns>An action result containing the performance metrics resource.</returns>
     [HttpGet("performance/monthly")]
     [SwaggerOperation(
         Summary = "Get monthly performance metrics",

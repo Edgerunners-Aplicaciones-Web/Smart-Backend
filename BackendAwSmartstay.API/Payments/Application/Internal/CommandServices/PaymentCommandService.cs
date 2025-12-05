@@ -17,6 +17,11 @@ public class PaymentCommandService(
     IUnitOfWork unitOfWork) 
     : IPaymentCommandService
 {
+    /// <summary>
+    /// Processes a payment command, simulating bank validation and updating the associated booking if successful.
+    /// </summary>
+    /// <param name="command">The command containing the payment data.</param>
+    /// <returns>The processed payment or null if processing failed.</returns>
     public async Task<Payment?> Handle(ProcessPaymentCommand command)
     {
         // 1. Iniciar el proceso de pago (Estado Pendiente)

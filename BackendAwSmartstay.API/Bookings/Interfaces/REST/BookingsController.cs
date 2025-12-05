@@ -9,6 +9,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace BackendAwSmartstay.API.Bookings.Interfaces.REST;
 
+/// <summary>
+/// REST controller for managing bookings.
+/// </summary>
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
@@ -18,6 +21,11 @@ public class BookingsController(
     IBookingQueryService bookingQueryService) : ControllerBase
 {
 
+    /// <summary>
+    /// Retrieves a booking by its identifier.
+    /// </summary>
+    /// <param name="bookingId">The unique identifier of the booking.</param>
+    /// <returns>An action result containing the booking resource or NotFound if not found.</returns>
     [HttpGet("{bookingId:int}")]
     [SwaggerOperation(
         Summary = "Get booking by id",
@@ -34,6 +42,11 @@ public class BookingsController(
         return Ok(resource);
     }
 
+    /// <summary>
+    /// Creates a new booking.
+    /// </summary>
+    /// <param name="resource">The resource containing the booking creation data.</param>
+    /// <returns>An action result containing the created booking resource.</returns>
     [HttpPost]
     [SwaggerOperation(
         Summary = "Create a new booking",
@@ -50,6 +63,10 @@ public class BookingsController(
         return CreatedAtAction(nameof(GetBookingById), new { bookingId = booking.Id }, bookingResource);
     }
     
+    /// <summary>
+    /// Retrieves all bookings.
+    /// </summary>
+    /// <returns>An action result containing a list of booking resources.</returns>
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all bookings",
@@ -63,6 +80,11 @@ public class BookingsController(
         return Ok(bookingResources);
     }
 
+    /// <summary>
+    /// Retrieves bookings by room identifier.
+    /// </summary>
+    /// <param name="roomId">The unique identifier of the room.</param>
+    /// <returns>An action result containing a list of booking resources for the specified room.</returns>
     [HttpGet("room/{roomId:int}")]
     [SwaggerOperation(
         Summary = "Get bookings by room id",
@@ -76,6 +98,11 @@ public class BookingsController(
         return Ok(bookingResources);
     }
     
+    /// <summary>
+    /// Confirms a booking.
+    /// </summary>
+    /// <param name="bookingId">The unique identifier of the booking to confirm.</param>
+    /// <returns>An action result containing the confirmed booking resource or NotFound if not found.</returns>
     [HttpPost("{bookingId:int}/confirm")]
     [SwaggerOperation(
         Summary = "Confirm a booking",
@@ -93,6 +120,11 @@ public class BookingsController(
     }
 
 
+    /// <summary>
+    /// Cancels a booking.
+    /// </summary>
+    /// <param name="bookingId">The unique identifier of the booking to cancel.</param>
+    /// <returns>An action result containing the cancelled booking resource or NotFound if not found.</returns>
     [HttpPost("{bookingId:int}/cancel")]
     [SwaggerOperation(
         Summary = "Cancel a booking",
@@ -109,4 +141,3 @@ public class BookingsController(
         return Ok(bookingResource);
     }
 }
-

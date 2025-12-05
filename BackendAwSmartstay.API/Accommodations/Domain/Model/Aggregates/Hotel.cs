@@ -2,8 +2,14 @@ using BackendAwSmartstay.API.Accommodations.Domain.Model.Commands;
 
 namespace BackendAwSmartstay.API.Accommodations.Domain.Model.Aggregates;
 
+/// <summary>
+/// Represents a hotel accommodation aggregate in the domain, encapsulating rooms and related business logic.
+/// </summary>
 public partial class Hotel
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Hotel"/> class with default values.
+    /// </summary>
     public Hotel()
     {
         Name = string.Empty;
@@ -16,6 +22,10 @@ public partial class Hotel
         Amenities = new List<string>();
     }
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Hotel"/> class from a create command.
+    /// </summary>
+    /// <param name="command">The command containing hotel creation data.</param>
     public Hotel(CreateHotelCommand command) : this()
     {
         HostId = command.HostId;
@@ -74,14 +84,44 @@ public partial class Hotel
         Amenities = amenities;
     }
 
+    /// <summary>
+    /// The unique identifier of the hotel.
+    /// </summary>
     public int Id { get; }
+    /// <summary>
+    /// The identifier of the host owning the hotel.
+    /// </summary>
     public int HostId { get; private set; }
+    /// <summary>
+    /// The name of the hotel.
+    /// </summary>
     public string Name { get; private set; }
+    /// <summary>
+    /// The street address of the hotel.
+    /// </summary>
     public string Address { get; private set; }
+    /// <summary>
+    /// The city where the hotel is located.
+    /// </summary>
     public string City { get; private set; }
+    /// <summary>
+    /// The country where the hotel is located.
+    /// </summary>
     public string Country { get; private set; }
+    /// <summary>
+    /// The URL of the hotel's image.
+    /// </summary>
     public string ImageUrl { get; private set; }
+    /// <summary>
+    /// A description of the hotel.
+    /// </summary>
     public string Description { get; private set; }
+    /// <summary>
+    /// The type of accommodation (e.g., hotel, resort).
+    /// </summary>
     public string Type { get; private set; }
+    /// <summary>
+    /// The list of amenities provided by the hotel.
+    /// </summary>
     public List<string> Amenities { get; private set; }
 }

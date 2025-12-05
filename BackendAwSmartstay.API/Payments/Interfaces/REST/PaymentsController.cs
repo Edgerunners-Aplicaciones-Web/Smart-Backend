@@ -8,6 +8,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace BackendAwSmartstay.API.Payments.Interfaces.REST;
 
+/// <summary>
+/// REST controller for managing payments.
+/// </summary>
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
@@ -16,6 +19,11 @@ public class PaymentsController(
     IPaymentCommandService paymentCommandService,
     IPaymentQueryService paymentQueryService) : ControllerBase
 {
+    /// <summary>
+    /// Processes a new payment for a booking.
+    /// </summary>
+    /// <param name="resource">The resource containing the payment processing data.</param>
+    /// <returns>An action result containing the processed payment resource.</returns>
     [HttpPost]
     [SwaggerOperation(
         Summary = "Process a new payment",
@@ -36,6 +44,11 @@ public class PaymentsController(
         return CreatedAtAction(nameof(GetPaymentByBooking), new { bookingId = payment.BookingId }, paymentResource);
     }
 
+    /// <summary>
+    /// Retrieves the payment details associated with a booking.
+    /// </summary>
+    /// <param name="bookingId">The unique identifier of the booking.</param>
+    /// <returns>An action result containing the payment resource or NotFound if not found.</returns>
     [HttpGet("booking/{bookingId:int}")]
     [SwaggerOperation(
         Summary = "Get payment by booking id",

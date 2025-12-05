@@ -30,14 +30,49 @@ public partial class Payment
             : "****";
     }
 
+    /// <summary>
+    /// The unique identifier of the payment.
+    /// </summary>
     public int Id { get; }
+
+    /// <summary>
+    /// The identifier of the booking associated with this payment.
+    /// </summary>
     public int BookingId { get; private set; }
+
+    /// <summary>
+    /// The unique transaction identifier generated for this payment.
+    /// </summary>
     public string TransactionId { get; private set; } // UUID único de la transacción
+
+    /// <summary>
+    /// The amount of the payment.
+    /// </summary>
     public decimal Amount { get; private set; }
+
+    /// <summary>
+    /// The method used for the payment (e.g., Credit Card).
+    /// </summary>
     public string PaymentMethod { get; private set; }
+
+    /// <summary>
+    /// The name of the card holder.
+    /// </summary>
     public string CardHolderName { get; private set; }
+
+    /// <summary>
+    /// The masked credit card number for security.
+    /// </summary>
     public string CardNumberMasked { get; private set; }
+
+    /// <summary>
+    /// The date when the payment was processed.
+    /// </summary>
     public DateTime PaymentDate { get; private set; }
+
+    /// <summary>
+    /// The current status of the payment.
+    /// </summary>
     public PaymentStatus Status { get; private set; }
 
     /// <summary>
@@ -57,6 +92,9 @@ public partial class Payment
     }
 }
 
+/// <summary>
+/// Enumeration of possible payment statuses.
+/// </summary>
 public enum PaymentStatus
 {
     Pending = 0,

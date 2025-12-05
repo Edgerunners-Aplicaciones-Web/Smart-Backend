@@ -9,6 +9,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace BackendAwSmartstay.API.Accommodations.Interfaces.REST;
 
+/// <summary>
+/// REST controller for managing hotel accommodations.
+/// </summary>
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
@@ -17,6 +20,10 @@ public class HotelsController(
     IHotelCommandService hotelCommandService,
     IHotelQueryService hotelQueryService) : ControllerBase
 {
+    /// <summary>
+    /// Retrieves all hotels.
+    /// </summary>
+    /// <returns>An action result containing a list of hotel resources.</returns>
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all hotels",
@@ -30,6 +37,11 @@ public class HotelsController(
         return Ok(resources);
     }
 
+    /// <summary>
+    /// Retrieves a hotel by its identifier.
+    /// </summary>
+    /// <param name="hotelId">The unique identifier of the hotel.</param>
+    /// <returns>An action result containing the hotel resource or NotFound if not found.</returns>
     [HttpGet("{hotelId:int}")]
     [SwaggerOperation(
         Summary = "Get hotel by id",
@@ -45,6 +57,11 @@ public class HotelsController(
         return Ok(resource);
     }
 
+    /// <summary>
+    /// Creates a new hotel.
+    /// </summary>
+    /// <param name="resource">The resource containing the hotel creation data.</param>
+    /// <returns>An action result containing the created hotel resource.</returns>
     [HttpPost]
     [SwaggerOperation(
         Summary = "Create a new hotel",
@@ -62,6 +79,12 @@ public class HotelsController(
         return CreatedAtAction(nameof(GetHotelById), new { hotelId = hotel.Id }, hotelResource);
     }
     
+    /// <summary>
+    /// Updates an existing hotel.
+    /// </summary>
+    /// <param name="hotelId">The unique identifier of the hotel to update.</param>
+    /// <param name="resource">The resource containing the updated hotel data.</param>
+    /// <returns>An action result containing the updated hotel resource or NotFound if not found.</returns>
     [HttpPut("{hotelId:int}")]
     [SwaggerOperation(
         Summary = "Update an existing hotel",
@@ -80,6 +103,11 @@ public class HotelsController(
         return Ok(hotelResource);
     }
 
+    /// <summary>
+    /// Deletes a hotel.
+    /// </summary>
+    /// <param name="hotelId">The unique identifier of the hotel to delete.</param>
+    /// <returns>An action result containing the deleted hotel resource or NotFound if not found.</returns>
     [HttpDelete("{hotelId:int}")]
     [SwaggerOperation(
         Summary = "Delete a hotel",
