@@ -8,11 +8,8 @@ using BackendAwSmartstay.API.Shared.Domain.Repositories;
 namespace BackendAwSmartstay.API.IAM.Application.Internal.CommandServices;
 
 /// <summary>
-///     The user command service
+///     Service responsible for handling user-related commands (Write operations).
 /// </summary>
-/// <remarks>
-///     This class is used to handle user commands
-/// </remarks>
 public class UserCommandService(
     IUserRepository userRepository,
     ITokenService tokenService,
@@ -21,10 +18,11 @@ public class UserCommandService(
     : IUserCommandService
 {
     /// <summary>
-    ///     Handle sign in command
+    ///     Processes a sign-in request.
     /// </summary>
-    /// <param name="command">The sign in command</param>
-    /// <returns>The authenticated user and the token</returns>
+    /// <param name="command">The command containing credentials.</param>
+    /// <returns>A tuple containing the authenticated User entity and the generated JWT token.</returns>
+    /// <exception cref="Exception">Thrown if user is not found or password is invalid.</exception>
     public async Task<(User user, string token)> Handle(SignInCommand command)
     {
         var user = await userRepository.FindByUsernameAsync(command.Username);
@@ -41,16 +39,20 @@ public class UserCommandService(
     }
 
     /// <summary>
-    ///     Handle sign up command
+    ///     Processes a sign-up request.
     /// </summary>
-    /// <param name="command">The sign up command</param>
+    /// <param name="command">The command containing new user details.</param>
+    /// <exception cref="Exception">Thrown if the username is already taken.</exception>
     public async Task Handle(SignUpCommand command)
     {
         if (userRepository.ExistsByUsername(command.Username))
             throw new Exception($"Username {command.Username} is already taken");
 
         var hashedPassword = hashingService.HashPassword(command.Password);
-        var user = new User(command.Username, hashedPassword);
+        
+        // Ahora pasamos el ROL al crear el usuario
+        var user = new User(command.Username, hashedPassword, command.Role); 
+        
         try
         {
             await userRepository.AddAsync(user);

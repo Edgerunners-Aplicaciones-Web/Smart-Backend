@@ -35,6 +35,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="Analytics\Application\Internal\CommandServices\" />
+        <Folder Include="Analytics\Domain\Model\Commands\" />
         <Folder Include="Payments\" />
     </ItemGroup>
 
