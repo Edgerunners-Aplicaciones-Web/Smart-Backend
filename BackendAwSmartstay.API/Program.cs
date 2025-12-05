@@ -48,7 +48,7 @@ app.EnsureDatabaseCreated();
 app.UseOpenApiConfiguration();
 
 // Configure CORS middleware
-app.UseCorsPolicy();
+app.UseCors("AllowAllPolicy");
 
 app.UseHttpsRedirection();
 
