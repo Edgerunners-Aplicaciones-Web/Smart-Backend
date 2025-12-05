@@ -16,18 +16,20 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
+builder.Services.AddControllers(options =>
+    options.Conventions.Add(new KebabCaseRouteNamingConvention())
+);
 
-// Database Configuration
+// Database
 builder.AddDatabaseConfigurationServices();
 
-// OpenAPI/Swagger Configuration
+// OpenAPI / Swagger
 builder.AddOpenApiConfigurationServices();
 
-// CORS Configuration
+// CORS
 builder.AddCorsServices();
 
-// Dependency Injection
+// DI / Contextos
 builder.AddSharedContextServices();
 builder.AddAccommodationsContextServices();
 builder.AddBookingsContextServices();
@@ -36,24 +38,22 @@ builder.AddIamContextServices();
 builder.AddProfilesContextServices();
 builder.AddAnalyticsContextServices();
 
-// Mediator Configuration
+// Mediator
 builder.AddCortexMediatorServices();
 
 var app = builder.Build();
 
-// Verify if the database exists and create it if it doesn't
 app.EnsureDatabaseCreated();
 
-// Configure OpenAPI/Swagger middleware
+// Swagger
 app.UseOpenApiConfiguration();
 
-// Configure CORS middleware
-app.UseCors("AllowAllPolicy");
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 
-// Configure custom authorization middleware
 app.UseRequestAuthorization();
 
 app.MapControllers();
+
 app.Run();

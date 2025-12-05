@@ -59,13 +59,14 @@ public static class WebApplicationBuilderExtensions
     {
         builder.Services.AddCors(options =>
         {
-            options.AddPolicy("AllowAllPolicy",
-                policy =>
-                {
-                    policy.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-                });
+            options.AddPolicy("AllowFrontend", policy =>
+            {
+                policy
+                    .WithOrigins("https://smartstay-3cffc.web.app")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
         });
     }
 }
