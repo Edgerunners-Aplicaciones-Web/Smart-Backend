@@ -3,15 +3,18 @@ using BackendAwSmartstay.API.Accommodations.Interfaces.REST.Resources;
 
 namespace BackendAwSmartstay.API.Accommodations.Interfaces.REST.Transform;
 
-public static class CreateHotelCommandFromResourceAssembler
+/// <summary>
+/// Assembler to convert UpdateHotelResource to UpdateHotelCommand.
+/// </summary>
+public static class UpdateHotelCommandFromResourceAssembler
 {
-    public static CreateHotelCommand ToCommandFromResource(CreateHotelResource resource)
+    public static UpdateHotelCommand ToCommandFromResource(int hotelId, UpdateHotelResource resource)
     {
-        return new CreateHotelCommand(
-            resource.HostId,
+        return new UpdateHotelCommand(
+            hotelId,
             resource.Name,
-            resource.Address, 
-            resource.City,    
+            resource.Address,
+            resource.City,
             resource.Country,
             resource.ImageUrl,
             resource.Description,

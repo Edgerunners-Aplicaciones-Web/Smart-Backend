@@ -3,14 +3,14 @@ using System.ComponentModel.DataAnnotations;
 namespace BackendAwSmartstay.API.Accommodations.Interfaces.REST.Resources;
 
 /// <summary>
-/// Resource definition for creating a new hotel.
+/// Resource definition for updating an existing hotel.
+/// Represents the data payload received from the client.
 /// </summary>
-public record CreateHotelResource(
-    [Required] int HostId,
+public record UpdateHotelResource(
     [Required] string Name,
-    [Required] string Address, 
-    [Required] string City,     
-    [Required] string Country, 
+    [Required] string Address,
+    [Required] string City,
+    [Required] string Country,
     [Required] string ImageUrl,
     [Required] string Description,
     [Required] string Type,
