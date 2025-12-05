@@ -21,7 +21,6 @@ public static class ModelBuilderExtensions
         // --- 1. Value Converters ---
         
         // Converter to handle List<string> as a JSON string in the database.
-        // This allows storing simple collections (like Amenities) without a separate join table.
         var amenitiesConverter = new ValueConverter<List<string>, string>(
             v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
             v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions?)null) ?? new List<string>());
@@ -115,5 +114,72 @@ public static class ModelBuilderExtensions
             .WithMany()
             .HasForeignKey(r => r.RoomTypeId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // --- 5. SEED DATA (Hardcoded Aggregates) ---
+        
+        // Seed Room Types
+        builder.Entity<RoomType>().HasData(
+            new { Id = 1, Name = "Single Standard", Description = "Cozy room for solo travelers." },
+            new { Id = 2, Name = "Double Deluxe", Description = "Spacious room for couples or business." },
+            new { Id = 3, Name = "Presidential Suite", Description = "Luxury suite with best views." }
+        );
+
+        // Seed Hotels
+        builder.Entity<Hotel>().HasData(
+            new {
+                Id = 1,
+                HostId = 1, // Assigned to first staff user
+                Name = "Grand Hotel Bolivar",
+                Address = "Jr. de la Unión 958",
+                City = "Lima",
+                Country = "Peru",
+                Description = "Historic hotel in the center of Lima.",
+                ImageUrl = "https://placehold.co/600x400/3498DB/FFFFFF?text=Bolivar",
+                Type = "Hotel",
+                Amenities = "[\"Wifi\", \"Restaurante\", \"Bar\"]" // JSON String required for seed with converter
+            },
+            new {
+                Id = 2,
+                HostId = 1,
+                Name = "Cusco Andean Lodge",
+                Address = "San Blas 123",
+                City = "Cusco",
+                Country = "Peru",
+                Description = "Experience the mystic energy of the Andes.",
+                ImageUrl = "https://placehold.co/600x400/E67E22/FFFFFF?text=Andean",
+                Type = "Lodge",
+                Amenities = "[\"Desayuno\", \"Wifi\", \"Gimnasio\"]"
+            }
+        );
+
+        // Seed Rooms
+        builder.Entity<Room>().HasData(
+            // Rooms for Hotel 1 (Bolivar)
+            new {
+                Id = 101,
+                HotelId = 1,
+                RoomTypeId = 1,
+                Price = 85.00m,
+                Description = "Room 101 - Standard view.",
+                Amenities = "[\"Wifi\", \"TV\"]"
+            },
+            new {
+                Id = 102,
+                HotelId = 1,
+                RoomTypeId = 2,
+                Price = 150.00m,
+                Description = "Room 102 - Plaza view with balcony.",
+                Amenities = "[\"Wifi\", \"TV\", \"Minibar\"]"
+            },
+            // Rooms for Hotel 2 (Cusco)
+            new {
+                Id = 201,
+                HotelId = 2,
+                RoomTypeId = 3,
+                Price = 320.00m,
+                Description = "Suite 201 - Panoramic mountain view.",
+                Amenities = "[\"Jacuzzi\", \"Wifi\", \"Desayuno\", \"Chimenea\"]"
+            }
+        );
     }
 }
