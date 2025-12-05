@@ -2,14 +2,22 @@
 
 namespace BackendAwSmartstay.API.Shared.Infrastructure.Documentation.OpenApi.Configuration.Extensions;
 
+/// <summary>
+/// Extension methods for configuring OpenAPI documentation and CORS policies.
+/// </summary>
 public static class WebApplicationBuilderExtensions
 {
+    /// <summary>
+    /// Configures OpenAPI/Swagger documentation services with JWT authentication support.
+    /// </summary>
+    /// <param name="builder">The web application builder instance.</param>
     public static void AddOpenApiConfigurationServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddOpenApi();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
         {
+            // Configure API documentation metadata
             options.SwaggerDoc("v1",
                 new OpenApiInfo
                 {
@@ -28,15 +36,19 @@ public static class WebApplicationBuilderExtensions
                         Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
                     }
                 });
+            
+            // Configure JWT Bearer authentication
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
-                Description = "Ingrese el token JWT con el prefijo Bearer",
+                Description = "Enter JWT token with Bearer prefix",
                 Name = "Authorization",
                 Type = SecuritySchemeType.Http,
                 BearerFormat = "JWT",
                 Scheme = "bearer"
             });
+            
+            // Apply JWT authentication globally
             options.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
@@ -51,10 +63,19 @@ public static class WebApplicationBuilderExtensions
                     Array.Empty<string>()
                 }
             });
+            
             options.EnableAnnotations();
         });
     }
 
+    /// <summary>
+    /// Configures CORS policy to allow all origins, methods, and headers.
+    /// </summary>
+    /// <param name="builder">The web application builder instance.</param>
+    /// <remarks>
+    /// Warning: This policy allows unrestricted cross-origin access. 
+    /// Consider restricting origins in production environments.
+    /// </remarks>
     public static void AddCorsServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddCors(options =>
@@ -70,4 +91,3 @@ public static class WebApplicationBuilderExtensions
         });
     }
 }
-
