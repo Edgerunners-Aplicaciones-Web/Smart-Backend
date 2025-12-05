@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using BackendAwSmartstay.API.Accommodations.Domain.Model.Commands;
 using BackendAwSmartstay.API.Accommodations.Domain.Model.Queries;
 using BackendAwSmartstay.API.Accommodations.Domain.Services;
 using BackendAwSmartstay.API.Accommodations.Interfaces.REST.Resources;
@@ -77,6 +78,42 @@ public class RoomsController(
         var rooms = await roomQueryService.Handle(new GetRoomsByTypeQuery(roomTypeId));
         var roomResources = rooms.Select(RoomResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(roomResources);
+    }
+    
+    [HttpPut("{roomId:int}")]
+    [SwaggerOperation(
+        Summary = "Update an existing room",
+        Description = "Updates the details of a specific room.",
+        OperationId = "UpdateRoom")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The room was updated", typeof(RoomResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Room not found")]
+    public async Task<IActionResult> UpdateRoom(int roomId, [FromBody] UpdateRoomResource resource)
+    {
+        var command = UpdateRoomCommandFromResourceAssembler.ToCommandFromResource(roomId, resource);
+        var updatedRoom = await roomCommandService.Handle(command);
+
+        if (updatedRoom is null) return NotFound();
+
+        var roomResource = RoomResourceFromEntityAssembler.ToResourceFromEntity(updatedRoom);
+        return Ok(roomResource);
+    }
+
+    [HttpDelete("{roomId:int}")]
+    [SwaggerOperation(
+        Summary = "Delete a room",
+        Description = "Deletes a specific room.",
+        OperationId = "DeleteRoom")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The room was deleted", typeof(RoomResource))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Room not found")]
+    public async Task<IActionResult> DeleteRoom(int roomId)
+    {
+        var command = new DeleteRoomCommand(roomId);
+        var deletedRoom = await roomCommandService.Handle(command);
+
+        if (deletedRoom is null) return NotFound();
+
+        var roomResource = RoomResourceFromEntityAssembler.ToResourceFromEntity(deletedRoom);
+        return Ok(roomResource);
     }
 }
 
